@@ -7,8 +7,9 @@ navbar:
       href: index.html
     - text: "Project"
       href: project.html
-    - text: "About"
-      href: about.html
+    - text: "HW9"
+      href: hw9.html
+
 
 output:
   html_document:
