@@ -381,17 +381,17 @@ nb_default</code></pre>
 ## A-priori probabilities:
 ## Y
 ##      Bill    Dimant 
-## 0.4779691 0.5220309 
+## 0.4790406 0.5209594 
 ## 
 ## Conditional probabilities:
 ##         sentiment
 ## Y             anger anticipation    disgust       fear        joy   negative
 ##   Bill   0.04398690   0.15301825 0.02058961 0.07440337 0.11277492 0.08235845
-##   Dimant 0.05912596   0.11268209 0.03856041 0.06555270 0.07155099 0.11610968
+##   Dimant 0.06110155   0.11531842 0.03657487 0.06841652 0.07056799 0.11660929
 ##         sentiment
 ## Y          positive    sadness   surprise      trust
 ##   Bill   0.26813290 0.04445484 0.05381376 0.14646701
-##   Dimant 0.28577549 0.05398458 0.04927164 0.14738646</code></pre>
+##   Dimant 0.28614458 0.05292599 0.04819277 0.14414802</code></pre>
 </div>
 <div id="part-b" class="section level4">
 <h4>Part B:</h4>
@@ -402,26 +402,26 @@ confusionMatrix(default_pred, as.factor(test$person))</code></pre>
 ## 
 ##           Reference
 ## Prediction Bill Dimant
-##     Bill    205    164
-##     Dimant  330    419
+##     Bill    205    153
+##     Dimant  330    428
 ##                                           
-##                Accuracy : 0.5581          
-##                  95% CI : (0.5285, 0.5875)
-##     No Information Rate : 0.5215          
-##     P-Value [Acc &gt; NIR] : 0.007597        
+##                Accuracy : 0.5672          
+##                  95% CI : (0.5375, 0.5965)
+##     No Information Rate : 0.5206          
+##     P-Value [Acc &gt; NIR] : 0.0009962       
 ##                                           
-##                   Kappa : 0.1032          
+##                   Kappa : 0.1214          
 ##                                           
-##  Mcnemar&#39;s Test P-Value : 1.139e-13       
+##  Mcnemar&#39;s Test P-Value : 1.163e-15       
 ##                                           
 ##             Sensitivity : 0.3832          
-##             Specificity : 0.7187          
-##          Pos Pred Value : 0.5556          
-##          Neg Pred Value : 0.5594          
-##              Prevalence : 0.4785          
-##          Detection Rate : 0.1834          
-##    Detection Prevalence : 0.3301          
-##       Balanced Accuracy : 0.5509          
+##             Specificity : 0.7367          
+##          Pos Pred Value : 0.5726          
+##          Neg Pred Value : 0.5646          
+##              Prevalence : 0.4794          
+##          Detection Rate : 0.1837          
+##    Detection Prevalence : 0.3208          
+##       Balanced Accuracy : 0.5599          
 ##                                           
 ##        &#39;Positive&#39; Class : Bill            
 ## </code></pre>
@@ -464,7 +464,7 @@ sum(dan_dimant==TRUE)</code></pre>
 <pre class="r"><code>pred_colin &lt;- predict(nb_default, sentiment_colin, type=&quot;class&quot;)
 colin_dimant &lt;- pred_colin[]==&quot;Dimant&quot;
 sum(colin_dimant==TRUE)</code></pre>
-<pre><code>## [1] 2214</code></pre>
+<pre><code>## [1] 2212</code></pre>
 <pre class="r"><code>sum(colin_dimant==FALSE)</code></pre>
 <pre><code>## [1] 1000</code></pre>
 </div>
