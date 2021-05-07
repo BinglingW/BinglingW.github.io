@@ -319,14 +319,7 @@ $(document).ready(function () {
 <div id="getting-the-data-ready" class="section level3">
 <h3>Getting the data ready:</h3>
 <p>We found Eugen Dimant and Bill Nye on Twitter. We extracted their most recent 500 tweets. We only selected the time, content, and course of the tweet and got rid of other irrelevant variables. We created a regular expression pattern for Dimant’s tweets and Nye’s tweets. Out of curiosity, we determined and plotted the most common words used in Dimant and Nye’s tweets. We joined the NRC Sentiment and Emotion Lexicons to Dimant and Nye’s datasets. Then we combined Dimant and Nye’s datasets.</p>
-<pre class="r"><code>#get tweets data
-twitter_token &lt;- create_token(
-  app = &quot;516project&quot;,
-  consumer_key = &quot;A0aV8HCimjtABAMHLjKdirJAJ&quot;,
-  consumer_secret = &quot;RJCEvK2AqSbB5YSIrao2JfDxIqf2pEN2vdJ0V5XuHx551ifMaf&quot;,
-  access_token = &quot;373190113-XI056rrTPPToGEjRJ24QszXacgFZBGja11zLVppt&quot;,
-  access_secret = &quot;ppBA9oHoaDHMKAPdzWO0jzGeL0BADbfp6rGKb7nodYtYn&quot;)
-#Finding username 
+<pre class="r"><code>#Finding username 
 bill = lookup_users(&quot;BillNye&quot;)
 dimant = lookup_users(&quot;eugen_dimant&quot;)
 #get_timelines finds all of a username&#39;s tweets from most recent ones to the earlier ones
@@ -385,17 +378,17 @@ nb_default</code></pre>
 ## A-priori probabilities:
 ## Y
 ##      Bill    Dimant 
-## 0.4822839 0.5177161 
+## 0.4825017 0.5174983 
 ## 
 ## Conditional probabilities:
 ##         sentiment
 ## Y             anger anticipation    disgust       fear        joy   negative
 ##   Bill   0.04398690   0.15301825 0.02058961 0.07440337 0.11277492 0.08235845
-##   Dimant 0.05754141   0.11726242 0.03879686 0.06800349 0.07061901 0.11900610
+##   Dimant 0.05890052   0.11561955 0.03315881 0.07286213 0.07329843 0.12041885
 ##         sentiment
 ## Y          positive    sadness   surprise      trust
 ##   Bill   0.26813290 0.04445484 0.05381376 0.14646701
-##   Dimant 0.28334786 0.04969486 0.04097646 0.15475153</code></pre>
+##   Dimant 0.27748691 0.04886562 0.04406632 0.15532286</code></pre>
 </div>
 <div id="part-b" class="section level4">
 <h4>Part B:</h4>
@@ -406,26 +399,26 @@ confusionMatrix(default_pred, as.factor(test$person))</code></pre>
 ## 
 ##           Reference
 ## Prediction Bill Dimant
-##     Bill    205    180
-##     Dimant  330    394
+##     Bill    166    126
+##     Dimant  369    447
 ##                                           
-##                Accuracy : 0.5401          
-##                  95% CI : (0.5103, 0.5698)
-##     No Information Rate : 0.5176          
-##     P-Value [Acc &gt; NIR] : 0.0704          
+##                Accuracy : 0.5532          
+##                  95% CI : (0.5234, 0.5828)
+##     No Information Rate : 0.5171          
+##     P-Value [Acc &gt; NIR] : 0.008723        
 ##                                           
-##                   Kappa : 0.0703          
+##                   Kappa : 0.0918          
 ##                                           
-##  Mcnemar&#39;s Test P-Value : 4.172e-11       
+##  Mcnemar&#39;s Test P-Value : &lt; 2.2e-16       
 ##                                           
-##             Sensitivity : 0.3832          
-##             Specificity : 0.6864          
-##          Pos Pred Value : 0.5325          
-##          Neg Pred Value : 0.5442          
-##              Prevalence : 0.4824          
-##          Detection Rate : 0.1849          
-##    Detection Prevalence : 0.3472          
-##       Balanced Accuracy : 0.5348          
+##             Sensitivity : 0.3103          
+##             Specificity : 0.7801          
+##          Pos Pred Value : 0.5685          
+##          Neg Pred Value : 0.5478          
+##              Prevalence : 0.4829          
+##          Detection Rate : 0.1498          
+##    Detection Prevalence : 0.2635          
+##       Balanced Accuracy : 0.5452          
 ##                                           
 ##        &#39;Positive&#39; Class : Bill            
 ## </code></pre>
@@ -462,15 +455,15 @@ sentiment_colin &lt;-
 pred_dan &lt;- predict(nb_default, sentiment_dan, type=&quot;class&quot;)
 dan_dimant &lt;- pred_dan[]==&quot;Dimant&quot;
 sum(dan_dimant==TRUE)</code></pre>
-<pre><code>## [1] 1496</code></pre>
+<pre><code>## [1] 1666</code></pre>
 <pre class="r"><code>sum(dan_dimant==FALSE)</code></pre>
-<pre><code>## [1] 783</code></pre>
+<pre><code>## [1] 613</code></pre>
 <pre class="r"><code>pred_colin &lt;- predict(nb_default, sentiment_colin, type=&quot;class&quot;)
 colin_dimant &lt;- pred_colin[]==&quot;Dimant&quot;
 sum(colin_dimant==TRUE)</code></pre>
-<pre><code>## [1] 2222</code></pre>
+<pre><code>## [1] 2474</code></pre>
 <pre class="r"><code>sum(colin_dimant==FALSE)</code></pre>
-<pre><code>## [1] 993</code></pre>
+<pre><code>## [1] 732</code></pre>
 </div>
 </div>
 <div id="results" class="section level3">
