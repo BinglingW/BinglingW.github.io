@@ -2,7 +2,7 @@
 title: "Predicting the Election Result Pt.2"
 author: "Bingling"
 date: "3/11/2021"
-output: pdf_document
+output: htnl_document
 ---
 
 ```{r setup, include=FALSE}

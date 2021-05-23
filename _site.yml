@@ -4,11 +4,11 @@ navbar:
   title: "Bingling Wang's Portal"
   left:
     - text: "Home"
-      href: homepage.html
+      href: index.html
     - text: "Data Science Samples"
       href: datasci_samples.html
     - text: "Research Projects"
-      href: research.html
+      href: Research_Projects.html
     - text: "Design Challenge"
       href: design_challenge.html
     - text: "Resume"
