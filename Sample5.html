@@ -291,6 +291,9 @@ $(document).ready(function () {
   <a href="datasci_samples.html">Data Science Samples</a>
 </li>
 <li>
+  <a href="research.html">Research Projects</a>
+</li>
+<li>
   <a href="design_challenge.html">Design Challenge</a>
 </li>
 <li>
@@ -394,13 +397,9 @@ nb_default</code></pre>
 ## 
 ## Conditional probabilities:
 ##         sentiment
-## Y             anger anticipation    disgust       fear        joy   negative
-##   Bill   0.04775281   0.15168539 0.01966292 0.07116105 0.10720974 0.08052434
-##   Dimant 0.06109461   0.10606703 0.04285108 0.06448876 0.07339839 0.12388630
-##         sentiment
-## Y          positive    sadness   surprise      trust
-##   Bill   0.27106742 0.04681648 0.05758427 0.14653558
-##   Dimant 0.27831990 0.06067034 0.04369962 0.14552397</code></pre>
+## Y             anger anticipation    disgust       fear        joy   negative   positive    sadness   surprise      trust
+##   Bill   0.04775281   0.15168539 0.01966292 0.07116105 0.10720974 0.08052434 0.27106742 0.04681648 0.05758427 0.14653558
+##   Dimant 0.06109461   0.10606703 0.04285108 0.06448876 0.07339839 0.12388630 0.27831990 0.06067034 0.04369962 0.14552397</code></pre>
 </div>
 <div id="we-applied-the-algorithm-on-the-test-data-and-created-a-confusion-matrix." class="section level4">
 <h4>We applied the algorithm on the test data and created a confusion matrix.</h4>
@@ -471,9 +470,9 @@ sum(dan_dimant==TRUE)</code></pre>
 <pre class="r"><code>pred_colin &lt;- predict(nb_default, sentiment_colin, type=&quot;class&quot;)
 colin_dimant &lt;- pred_colin[]==&quot;Dimant&quot;
 sum(colin_dimant==TRUE)</code></pre>
-<pre><code>## [1] 2356</code></pre>
+<pre><code>## [1] 2347</code></pre>
 <pre class="r"><code>sum(colin_dimant==FALSE)</code></pre>
-<pre><code>## [1] 1099</code></pre>
+<pre><code>## [1] 1097</code></pre>
 <p><br />
 </p>
 </div>

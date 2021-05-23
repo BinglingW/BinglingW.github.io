@@ -9,10 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Bingling" />
 
 
-<title>Sample 1: Handwashing</title>
+<title>Research Projects</title>
 
 <script src="site_libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -311,96 +310,22 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Sample 1: Handwashing</h1>
-<h4 class="author">Bingling</h4>
-<h4 class="date">2/16/2021</h4>
+<h1 class="title toc-ignore">Research Projects</h1>
 
 </div>
 
 
-<div id="data-preparation" class="section level2">
-<h2>Data preparation</h2>
-<pre class="r"><code>monthly_deaths &lt;- read_csv(&quot;monthly_deaths.csv&quot;)</code></pre>
-<pre><code>## 
-## ── Column specification ────────────────────────────────────────────────────────────────────────────────────────────────────
-## cols(
-##   date = col_date(format = &quot;&quot;),
-##   births = col_double(),
-##   deaths = col_double()
-## )</code></pre>
-<pre class="r"><code>monthly_deaths &lt;- monthly_deaths %&gt;% mutate(imr = deaths/births)
-monthly_deaths &lt;- monthly_deaths %&gt;% mutate(implement = ifelse(`date` &lt; &quot;1847-06-01&quot;, &quot;no_handwash&quot;, &quot;with_handwash&quot;))</code></pre>
+<p><br />
+<br />
+<br />
+</p>
+<div id="project-1" class="section level4">
+<h4><a href="Project1.html">Project 1:</a></h4>
+<p><br />
+</p>
 </div>
-<div id="graph-1-seasonality-of-mortality" class="section level2">
-<h2>Graph 1: seasonality of mortality</h2>
-<pre class="r"><code>monthly_deaths %&gt;% 
-  group_by(month = month(date,label=TRUE)) %&gt;% 
-  summarize(imr_by_month = mean(imr)) %&gt;% 
-  ggplot(aes(x=month, y=imr_by_month)) +
-  geom_line(group=1) +
-  geom_point(size=1) +
-  theme_classic() +
-  scale_y_continuous(breaks=seq(0,0.15,0.01)) +
-  labs(title = &quot;Seasonality of IMR by Month&quot;, subtitle= &quot;from 1841 to 1848&quot;, y=&quot;Average IMR&quot;)</code></pre>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<p><img src="Sample1_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-</div>
-<div id="graph-2-monthly-data" class="section level2">
-<h2>Graph 2: monthly data</h2>
-<pre class="r"><code>monthly_deaths %&gt;%
-  ggplot(aes(x=`date`, y=imr, color=implement)) +
-    geom_point() +
-    geom_line() +
-    labs(title=&quot;IMR by Month&quot;, y=&quot;Monthly IMR&quot;)+
-    theme_classic()</code></pre>
-<p><img src="Sample1_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-</div>
-<div id="graph-3-yearly-averages" class="section level2">
-<h2>Graph 3: yearly averages</h2>
-<pre class="r"><code>monthly_deaths %&gt;% 
-  group_by(year = as.factor(year(date))) %&gt;% 
-  summarize(avg_year_imr = mean(imr)) %&gt;%
-  ggplot(aes(x=year, y=avg_year_imr, group=1)) +
-  geom_line() +
-  geom_point() +
-  labs(title = &quot;Yearly Average IMR&quot;, x=&quot;Year&quot;, y=&quot;Average IMR&quot;)+
-  theme_classic() +
-  scale_y_continuous(breaks = seq(0,1, 0.01))</code></pre>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<p><img src="Sample1_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-</div>
-<div id="did-imr-actually-improve-using-a-t-test-to-find-out." class="section level2">
-<h2>Did IMR actually improve? Using a t-test to find out.</h2>
-<p>The result of the t-test gives us a p-value that is smaller than 0.01, which means that IMR did indeed improve with the implementation of handwashing.</p>
-<pre class="r"><code>t.test(imr ~ implement, data = monthly_deaths)$p.value</code></pre>
-<pre><code>## [1] 1.445277e-15</code></pre>
-</div>
-<div id="graph-4-radar-chart" class="section level2">
-<h2>Graph 4: Radar Chart</h2>
-<pre class="r"><code>monthly_deaths %&gt;% 
-  group_by(month = month(date, label=TRUE)) %&gt;%
-  summarize(avg_imr = mean(imr)) %&gt;%
-  mutate(max = 0.15, min = 0) %&gt;%
-  select(month,max,min,avg_imr) %&gt;%
-  pivot_longer(max:avg_imr, names_to = &quot;category&quot;, values_to = &quot;value&quot;) %&gt;%
-  pivot_wider(names_from = month, values_from = value) %&gt;%
-  select(Jan:Dec) -&gt; chart</code></pre>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<pre class="r"><code>radarchart(chart,
-           seg = 5,
-           pcol=rgb(0.5,0.5,0.3,0.9), 
-           pfcol=rgb(0.2,0.7,0.9,0.4),
-           cglty = 1,
-           axistype = 1,
-           axislabcol =rgb(0.9,0.7,0.7,0.9) , 
-           caxislabels = c(0,0.03,0.06,0.09,0.12,0.15),
-           calcex = 1,
-           cglcol = &quot;grey&quot;,
-           cglwd = 0.8,
-           vlcex = 0.8,
-           title = &quot;Seasonality of IMR by Month&quot;
-  )</code></pre>
-<p><img src="Sample1_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<div id="project-2" class="section level4">
+<h4><a href="Project2.html">Project 2:</a></h4>
 </div>
 
 

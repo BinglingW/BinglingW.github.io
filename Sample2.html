@@ -291,6 +291,9 @@ $(document).ready(function () {
   <a href="datasci_samples.html">Data Science Samples</a>
 </li>
 <li>
+  <a href="research.html">Research Projects</a>
+</li>
+<li>
   <a href="design_challenge.html">Design Challenge</a>
 </li>
 <li>
@@ -395,12 +398,10 @@ names_tidy %&gt;%
   ungroup() %&gt;%
   filter(change_of_popularity == min(change_of_popularity) | change_of_popularity == max(change_of_popularity))</code></pre>
 <pre><code>## # A tibble: 2 x 9
-##      X1 name  sex   year  baby_count yearly_babycount baby_count_proportion
-##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;            &lt;dbl&gt;                 &lt;dbl&gt;
-## 1    72 Etta  F     2002          29          3733299            0.00000777
-## 2 61482 Homer M     2003           9          3796845            0.00000237
-## # … with 2 more variables: oneyear_before_proportion &lt;dbl&gt;,
-## #   change_of_popularity &lt;dbl&gt;</code></pre>
+##      X1 name  sex   year  baby_count yearly_babycount baby_count_proportion oneyear_before_proportion change_of_popularity
+##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;            &lt;dbl&gt;                 &lt;dbl&gt;                     &lt;dbl&gt;                &lt;dbl&gt;
+## 1    72 Etta  F     2002          29          3733299            0.00000777                0.00000187                0.759
+## 2 61482 Homer M     2003           9          3796845            0.00000237                0.00000830               -2.50</code></pre>
 </div>
 
 
