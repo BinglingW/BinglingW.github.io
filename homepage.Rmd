@@ -1,0 +1,29 @@
+---
+title: " "
+output: 
+  html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\
+\
+\
+
+## About Me
+
+I am fascinated with applying my cutting-edge knowledge of behavioral and decision science to solve real-world problems. I would like to help people make more beneficial choices. I would like to design and promote human-centered ideas and products to make the world better.
+
+\
+
+I love working in a fast-paced environment. I enjoy transferring insights from multiple fields into comprehensive workable actions. I am enthusiastic about taking on challenges and exploring the unknown.
+\
+
+## My Portfolio
+
+Here, you may see
+
+## Contact
+Email: <a href="mailto:bingling@sas.upenn.edu">bingling@sas.upenn.edu</a>

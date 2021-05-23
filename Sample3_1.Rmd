@@ -1,0 +1,248 @@
+---
+title: "Predicting the Election Result Pt.1"
+author: "Bingling"
+date: 3/3/2021
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(tidycensus)
+library(caret)
+```
+
+
+```{r, include=FALSE}
+census_api_key("c507a0514a354e5a4a9d73c1a9beeac207f0c807", overwrite = TRUE, install = TRUE)
+readRenviron("~/.Renviron")
+```
+
+\
+
+## 1. Loading Variable List
+```{r}
+var <- load_variables(2019, "acs1", cache = TRUE)
+```
+
+\
+
+## 2. A Summary of the Selected 20 Variables
+
+**Variable 1: PE_low_income**               
+This variable is the percentage of people with an individual income below 30,000 in the past 12 months. On average, 33.2% of people in each county had an income at this range. The standard deviation is 0.052. This variable is important as many policies and political agendas are related to people's income. And part of Biden's economic plan aims at helping low-income families.
+
+**Variable 2: PE_income_middle**              
+This variable is the percentage of people with an individual income above 30,000 and below 50,000 in the past 12 months. On average, 20.4% of people in each county had an income at this range. The standard deviation is 0.031. As mentioned above, this variable is important as many policies and political agendas are related to people's income. Middle class people are thought to be more likely to support Donald Trump, thus less likely to support Biden.
+
+**Variable 3: PE_income_high**            
+This variable is the percentage of people with an individual income above 50,000 in the past 12 months. On average,  17.7% of people are have an income at this range. The standard deviation is 0.057. As mentioned above, this variable is important as many policies and political agendas are related to people's income. Trump's policies tend to give more benefit toward people with high income. So these people may be less likely to support Biden.
+
+**Variable 4: PE_male_justadult**           
+This variable is the percentage of male at 18 or 19 years old in each county. On average, 1.35% of people in the county are males who have just become adults. The standard deivation is 0.007. This variable is important because they can vote in the recent one or two years. They may be more cautious of voting, and given that they are the younger generation, they may be more liberal.
+
+**Variable 5: PE_male_20**        
+This variable is the percentage of males who are 20 to 29 years old in each county. On average, 5.73% of people in the county are males at this range. The standard deviation is 0.017. This generation also counts as a younger generation. They may be more liberal.
+
+**Variable 6: PE_male_40**          
+This variable is the percentage of males who are 40 to 49 years old in each county. On average, 5.93% of people in each county are males at this range. The standard deviation is 0.010. This variable is important because this is a relatively older generation. Cohort effect may influence people's political affiliation.
+
+**Variable 7: PE_male_60**      
+This variable is the percentage of males who are at 60 to 69 years old in each county. On average, 6.42% of people in each county are at this range. The standard deviation is 0.014. As mentioned above, this variable is important because Cohort effect may influence people's political affiliation.
+
+**Variable 8: PE_female_justadult**     
+This variable is the percentage of females who are 18 or 19 year old in each county. On average, 1.21% of population in each county are at this range. The standard deviation is 0.007. This variable is important because there has been a wide gender gap in partisanship. This variable can be used to compare with the variable PE_male_justadult.
+
+**Variable 9: PE_female_20**      
+This variable is the percentage of females who are 20 to 29 years old in each county. On average, 5.78% of people in each county are at this range. The standard deviation is 0.015. As mentioned above, this variable is important because in additional to the cohort effect, there has been a wide gender gap in partisanship. This variable can be used to compare with the variable PE_male_20.
+
+**Variable 10: PE_female_40**        
+This variable is the percentage of females who are 40 to 49 years old in each county. On average, 5.78% of people in each county are at this range. the The standard deviation is 0.009. As mentioned above, this variable is important because in additional to the cohort effect, there has been a wide gender gap in partisanship. This variable can be used to compare with the variable PE_male_40.
+
+**Variable 11: PE_female_60**
+The standard deviation is 0.014. This variable is the percentage of females who are 60 to 69 years old in each county. On average, 6.67% of people in each county are at this range. the The standard deviation is 0.009. As mentioned above, this variable is important because in additional to the cohort effect, there has been a wide gender gap in partisanship. This variable can be used to compare with the variable PE_male_60.
+
+**Variable 12: PE_white**          
+This variable is the percentage of people whose race is White in each county. On average, 82.5% of people in each county are white. The standard deviation is 0.172. This variable is important because there has been a racial divisions in leaned partisan identification. 
+
+**Variable 13: PE_black**        
+This variable is the percentage of people whose race is Black/African American in each county. On average, 9.15% of people in each county are black. The standard deviation is 0.146. As mentioned above, this variable is important because there has been a racial divisions in leaned partisan identification. Since Trump has given racist speech in the past, Black voters may choose to vote for Biden.
+
+**Variable 14: PE_asian**        
+This variable is the percentage of people whose race is Asian in each county. On average, 1.36% of people are Asian in each county. The standard deviation is 0.027. As mentioned above, this variable is important because there has been a racial divisions in leaned partisan identification. Since Trump has given racist speech in the past, Asian voters may choose to vote for Biden.
+
+**Variable 15: PE_veteran**      
+This variabe is the percentage of people who are veterans in each county. On average, 6.62% of people are veterans in each county. The standard deviation is 0.022. This variable is important because in the 2016 election, veterans broadly supported Trump. It is likely that veterans' preference has not changed over the 4 years. There can also be partisan divisions among veterans after how Trump's presidency went in the 4 years.
+
+**Variable 16: PE_move_dffstate**            
+This variable is the percentage of people who had moved to a different state in the past 12 months. On average, 2.13% of people in each county had moved. The standard deviation is 0.017. This variable is important because moving means changing people's living and political environments.
+
+**Variable 17: PE_english_only**        
+This variable is the percentage of people who only speak English at home. On average, 34.2% of population in each county matches this condition. The standard deviation is 0.085. This variable is important because people who only speak English tend not to be immigrants. And different parties have different perspective on immigration policy, which may influence voters' decisions.    
+
+**Variable 18: PE_bachelor**        
+This variable is the percentage of people who have had a bachelor degree. On average, 9.81% of people in each county have had a bachelor degree. The standard deviation is 0.039. This variable is important because there has been a education gap in partisan orientation. Higher educational attainment is associated with Democratic Party affiliation and leaning.
+
+**Variable 19: PE_lesshighschool**        
+This variable is the the percentage of people who have a degree less than high school. On average, 8.97% of people in each county meet this condition. The standard deviation is 0.042. As mentioned above, this variable is important because there has been a education gap in partisan orientation. People with lower educational attainment tend to support the Republic more.
+
+**Variable 20: PE_own_children**         
+This variable is the percentage of people who have children under 18 year old in their families in each county. On average, 19.2% of people meet this condition. The standard deviation is 0.033. This variable is important because parents may form more liberal or conservative views on family/gender roles, leading to their support of different political parties.
+
+```{r load_data}
+censusdata <- get_acs(geography = "county",
+              variables = c(
+                      less_than_highschool = "B06009_002",
+                      race_white = "B02001_002",
+                      race_black = "B02001_003",
+                      race_asian = "B02001_005",
+                      bachelor = "B06009_005",
+                      income_1_1 = "B06010_004",
+                      income_1_2 = "B06010_005",
+                      income_1_3 = "B06010_006",
+                      income_2_1 = "B06010_007",
+                      income_2_2 = "B06010_008",
+                      income_2_3 = "B06010_008",
+                      income_3_1 = "B06010_009",
+                      income_3_2 = "B06010_010",
+                      income_3_3 = "B06010_011",
+                      male_1819 = "B01001_007",
+                      male_20 = "B01001_008",
+                      male_2124 = "B01001_010",
+                      male_2529 = "B01001_011",
+                      male_4044 = "B01001_014",
+                      male_4549 = "B01001_015",
+                      male_6061 = "B01001_018",
+                      male_6264 = "B01001_019",
+                      male_6566 = "B01001_020",
+                      male_6769 = "B01001_021",
+                      female_1819 = "B01001_031",
+                      female_20 = "B01001_032",
+                      female_21 = "B01001_033",
+                      female_2224 = "B01001_034",
+                      female_2429 = "B01001_035",
+                      female_4044 = "B01001_038",
+                      female_4549 = "B01001_039",
+                      female_6061 = "B01001_042",
+                      female_6264 = "B01001_043",
+                      female_6566 = "B01001_044",
+                      female_6569 = "B01001_045",
+                      own_children = "B09002_001",
+                      veteran = "B21001_002",
+                      english_only = "C16002_002",
+                      moved_from_diff_state = "B07001_065",
+                      below_poverty = "B29003_002",
+                      total_population = "B01003_001"),
+                      year = 2019)
+```
+
+\
+
+## 3. Clean the census dataset
+
+```{r clean_data}
+acs_data <- censusdata %>%
+  separate(NAME, into = c("county","state"), sep = ",") %>%
+  pivot_wider(id_cols = c(state,county), names_from = variable, values_from = estimate) %>%
+  mutate(PE_income_low = (income_1_1+income_1_2+income_1_3)/total_population,
+         PE_income_middle = (income_2_1+income_2_2)/total_population,
+         PE_income_high = (income_3_1+income_3_2+income_3_3)/total_population,
+         PE_male_justadult = (male_1819)/total_population,
+         PE_male_20 = (male_20+male_2124+male_2529)/total_population,
+         PE_male_40 = (male_4044+male_4549)/total_population,
+         PE_male_60 = (male_6061+male_6264+male_6566+male_6769)/total_population,
+         PE_female_justadult = (female_1819)/total_population,
+         PE_female_20 = (female_20+female_21+female_2224+female_2429)/total_population,
+         PE_female_40 = (female_4044+female_4549)/total_population,
+         PE_female_60 = (female_6061+female_6264+female_6566+female_6569)/total_population,
+         PE_white = race_white/total_population,
+         PE_black = race_black/total_population,
+         PE_asian = race_asian/total_population,
+         PE_veteran = veteran/total_population,
+         PE_move_dffstate = moved_from_diff_state/total_population,
+         PE_bachelor = bachelor/total_population,
+         PE_lesshighschool = less_than_highschool/total_population,
+         PE_own_children = own_children/total_population,
+         PE_english_only = english_only/total_population) %>%
+  select(county,
+         state,
+         PE_income_low,
+         PE_income_middle,
+         PE_income_high,
+         PE_male_justadult,
+         PE_male_20,
+         PE_male_40,
+         PE_male_60,
+         PE_female_justadult,
+         PE_female_20,
+         PE_female_40,
+         PE_female_60,
+         PE_white,
+         PE_black,
+         PE_asian,
+         PE_veteran,
+         PE_move_dffstate,
+         PE_english_only,
+         PE_bachelor,
+         PE_lesshighschool,
+         PE_own_children
+         )
+acs_data$state = str_trim(acs_data$state, side='both')
+acs_data %>% drop_na() -> acs_data
+```
+
+```{r descriptive_stats, include=FALSE}
+acs_data %>%
+  summarize_at(vars(PE_income_low:PE_own_children), mean, na.rm=TRUE)
+acs_data %>%
+  summarize_at(vars(PE_income_low:PE_own_children), sd, na.rm=TRUE)
+```
+
+\
+
+## 4. Clean the election dataset
+
+```{r, message=FALSE}
+election <- read_csv("president_county_candidate.csv")
+election %>%
+  mutate(pctvote = 100*total_votes/sum(total_votes)) %>%
+  group_by(state, county) %>%
+  pivot_wider(id_cols = c(state,county), 
+              names_from = c(candidate), 
+              values_from = pctvote) %>%
+  select(state,county,`Joe Biden`) %>%
+  arrange(state,county)-> election_clean
+election_clean %>%
+  inner_join(acs_data, by=c("state","county")) -> combined_data
+```
+
+\
+
+## 5.Finding The Best Model to Predict Using Stepwise Regression
+
+The model built by **forward stepwise selection** (model 1) has an Adjusted R-square of 0.3134. The model built by **backward stepwise selection** (model 2) has an Adjusted R-squre of 0.3236. Since model 2 has a slightly larger predictive power, we will use model 2 instead of model 1.
+
+```{r}
+all <- lm(`Joe Biden` ~ 
+            PE_income_low+PE_income_middle+PE_income_high+PE_male_justadult+PE_male_20+PE_male_40+PE_male_60+PE_female_justadult+PE_female_20+PE_female_40+PE_female_60+PE_white+PE_black+PE_asian+
+            PE_veteran+PE_move_dffstate+PE_english_only+PE_bachelor+PE_lesshighschool+PE_own_children, 
+          data=combined_data)
+intercept_only <- lm(`Joe Biden` ~ 1, data=combined_data)
+```
+```{r}
+#forward stepwise selection
+forward <- step(all, direction="forward", scope=formula(all), trace=0)
+summary(forward)
+```
+```{r}
+#backward stepwise selection
+backward <- step(all, direction="backward", scope=formula(all), trace=0)
+summary(backward)
+```
+
+
+
+
+
+
+

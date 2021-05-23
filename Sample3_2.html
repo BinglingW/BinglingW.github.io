@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Bingling" />
+
+
+<title>Predicting the Election Result Pt.2</title>
+
+<script src="site_libs/header-attrs-2.5/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 41px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 46px;
+  margin-top: -46px;
+}
+.section h2 {
+  padding-top: 46px;
+  margin-top: -46px;
+}
+.section h3 {
+  padding-top: 46px;
+  margin-top: -46px;
+}
+.section h4 {
+  padding-top: 46px;
+  margin-top: -46px;
+}
+.section h5 {
+  padding-top: 46px;
+  margin-top: -46px;
+}
+.section h6 {
+  padding-top: 46px;
+  margin-top: -46px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Bingling Wang's Portal</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="homepage.html">Home</a>
+</li>
+<li>
+  <a href="datasci_samples.html">Data Science Samples</a>
+</li>
+<li>
+  <a href="design_challenge.html">Design Challenge</a>
+</li>
+<li>
+  <a href="resume.pdf">Resume</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Predicting the Election Result Pt.2</h1>
+<h4 class="author">Bingling</h4>
+<h4 class="date">3/11/2021</h4>
+
+</div>
+
+
+<p><br />
+</p>
+<div id="decision-tree" class="section level2">
+<h2>1. Decision Tree</h2>
+<p>The decision tree can be interpreted as the following:</p>
+<ul>
+<li><strong>Layer 1</strong>: The overal probability of Trump being the winner is <strong>16%</strong>.</li>
+<li><strong>Layer 2</strong>: <em>93% of counties have more than 53% of people as white people</em>. If the percentage of white people is more than 53% in the county, the probability of Trump being the winner is <strong>11%</strong>. If the percentage is less than 53%, the probability of Biden being the winner is <strong>84%</strong>.</li>
+<li><strong>Layer 2</strong>: Among the counties with more than 53% of people as white people, if the county has less than 2.8% of people as Asians, the probability of Trump being the winner is <strong>6%</strong>.<em>84% of county meet this if-condition</em>. If the county has more than 2.8% of people as Asians, the probability of Biden being the winner is <strong>60%</strong>. <em>9% of county meet this if-condition</em>.</li>
+<li><strong>Layer 3</strong>: Among the counties with more than 53% white people and less than 2.8% Asians, if there are more than 8% of families who speak only English at home, the probability of Trump being the winner is <strong>5%</strong>. <em>84% of county meet this if-condition</em>. If there are less than 8% of families who speak only English at home, the probability of Biden being the winner is <strong>78%</strong>. <em>1% of county meet this if-condition</em>.</li>
+<li><strong>Layer 3</strong>: Among the counties with more than 53% white people and more than 2.8% Asians, if less than 12% of popolation has a bachelor degree, the probability of Trump being the winner is <strong>27%</strong>. <em>2% of county meet this if-condition</em>. If more than 12% of population has a bachelor degree, the probability of Biden being the winner is <strong>72%</strong>. <em>7% of county meet this if-condition</em>.</li>
+<li><strong>Layer 4</strong>: Among the counties with more than 53% white people, less than 2.8% Asians, and less than 12% of popolation who has a bachelor degree, if less than 18% of population has a bachelor degree, the probability of Trump being the winner is <strong>4%</strong>. <em>82% of county meet this if-condition</em>.If more than 18% of population has a bachelor degree, the probability of Biden being the winner is <strong>65%</strong>. <em>1% of county meet this if-condition</em>.</li>
+<li><strong>Layer 4</strong>: Among the counties with more than 53% white people, more than 2.8% Asians, and more than 12% hain ga bachelor degree, if the percentage of white people in the county is more than 86%, the probability of Trump being the winner is <strong>27</strong>. <em>1% of county meet this if-condition</em>. If the percentage of white people in the county is less than 86%, the probability of Biden being the winner is <strong>83%</strong>. <em>5% of county meet this if-condition</em>.</li>
+</ul>
+<pre class="r"><code># split data
+set.seed(3451)
+data_split &lt;- partition(election2$winner, p = c(train = 0.8, test = 0.2))
+train &lt;- election2[data_split$train, ]
+test &lt;- election2[data_split$test, ]</code></pre>
+<pre class="r"><code># create a tree
+model1 &lt;- rpart(candidate ~ PE_bachelor + PE_lesshighschool + PE_veteran + PE_white + 
+                  PE_asian + PE_male_60 + PE_female_60 + PE_female_40 + PE_female_justadult +
+                  PE_male_justadult + PE_income_middle + PE_income_high +
+                  PE_income_low + PE_english_only, 
+                data = train,
+                method = &quot;class&quot;,
+                control = rpart.control(cp = 0.015))
+rpart.plot(model1, yesno = 2, type = 1)</code></pre>
+<p><img src="Sample3_2_files/figure-html/tree-1.png" width="672" /></p>
+<p><br />
+</p>
+</div>
+<div id="bagging" class="section level1">
+<h1>2. Bagging</h1>
+<p>The quality of prediction can improve because:</p>
+<ol style="list-style-type: decimal">
+<li><p>Bagging uses the ensemble method instead of a single tree. Because of the aggregation process, bagging is able to reduce the high variance and potentially large prediction error that a single decision tree has.</p></li>
+<li><p>It can also eliminate the overfitting of models through reducing the variance since bagging introduces a random component into the tree building process through bootstrapping.</p></li>
+</ol>
+<p>The drawbacks of this method include:</p>
+<ol style="list-style-type: decimal">
+<li><p>This method cannot increase much predictive power for algorithms that are more stable or have high bias (i.e. low variability), such as linear regressions.</p></li>
+<li><p>It can be computationally expensive.</p></li>
+<li><p>There can be a loss of interpretability of a model.</p></li>
+<li><p>It can result in tree correlation, which limits the effect of variance reduction.</p></li>
+</ol>
+<pre class="r"><code>set.seed(123)
+model2 &lt;- bagging(
+  formula = candidate ~ PE_bachelor + PE_lesshighschool + PE_veteran + PE_white + 
+                  PE_asian + PE_male_60 + PE_female_60 + PE_female_40 + PE_female_justadult +
+                  PE_male_justadult + PE_income_middle + PE_income_high +
+                  PE_income_low + PE_english_only,
+  data = train,
+  nbagg = 100,
+  coob = TRUE,
+  control = rpart.control(minsplit=2, cp=0)
+)
+print(model2)</code></pre>
+<pre><code>## 
+## Bagging classification trees with 100 bootstrap replications 
+## 
+## Call: bagging.data.frame(formula = candidate ~ PE_bachelor + PE_lesshighschool + 
+##     PE_veteran + PE_white + PE_asian + PE_male_60 + PE_female_60 + 
+##     PE_female_40 + PE_female_justadult + PE_male_justadult + 
+##     PE_income_middle + PE_income_high + PE_income_low + PE_english_only, 
+##     data = train, nbagg = 100, coob = TRUE, control = rpart.control(minsplit = 2, 
+##         cp = 0))
+## 
+## Out-of-bag estimate of misclassification error:  0.0735</code></pre>
+<p><br />
+</p>
+</div>
+<div id="random-forests" class="section level1">
+<h1>3. Random Forests</h1>
+<p>The OOB’s rmse is 0.2378, and the Random Forest’s rmse is 0.2292, which is smaller. So this method of Random Forests has a slightly stronger predictive performance.</p>
+<p>The advantages of random forests include:</p>
+<ol style="list-style-type: decimal">
+<li><p>It reduces tree correlation by injecting more randomness into the tree-growing process by creating a more diverse set of trees.</p></li>
+<li><p>This method does not have a large variablity in its prediction accuracy when tuning.</p></li>
+</ol>
+<p>The disadvantages of random forests include:</p>
+<ol style="list-style-type: decimal">
+<li><p>There are multiple hyperparameters that should be manually set.</p></li>
+<li><p>Adding more hypoerparameters can be computationally expensive.</p></li>
+</ol>
+<pre class="r"><code>n_features &lt;- length(setdiff(names(train), &quot;candidate&quot;))
+model3 &lt;- ranger(
+  candidate ~ PE_bachelor + PE_lesshighschool + PE_veteran + PE_white + 
+                  PE_asian + PE_male_60 + PE_female_60 + PE_female_40 + PE_female_justadult +
+                  PE_male_justadult + PE_income_middle + PE_income_high +
+                  PE_income_low + PE_english_only,
+  data = train,
+  mtry = floor(n_features / 3),
+  respect.unordered.factors = &quot;order&quot;,
+  seed = 123
+)
+model3_rmse &lt;- sqrt(model3$prediction.error)
+print(model3)</code></pre>
+<pre><code>## Ranger result
+## 
+## Call:
+##  ranger(candidate ~ PE_bachelor + PE_lesshighschool + PE_veteran +      PE_white + PE_asian + PE_male_60 + PE_female_60 + PE_female_40 +      PE_female_justadult + PE_male_justadult + PE_income_middle +      PE_income_high + PE_income_low + PE_english_only, data = train,      mtry = floor(n_features/3), respect.unordered.factors = &quot;order&quot;,      seed = 123) 
+## 
+## Type:                             Classification 
+## Number of trees:                  500 
+## Sample size:                      2434 
+## Number of independent variables:  14 
+## Mtry:                             8 
+## Target node size:                 1 
+## Variable importance mode:         none 
+## Splitrule:                        gini 
+## OOB prediction error:             6.70 %</code></pre>
+<p><br />
+</p>
+</div>
+<div id="construct-confusion-metrics-for-test-data" class="section level1">
+<h1>4. Construct confusion metrics for test data</h1>
+<pre class="r"><code># single decision tree
+predict_model1_test &lt;- predict(model1, test, type = &#39;class&#39;)
+confusionMatrix(predict_model1_test, test$candidate)</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##               Reference
+## Prediction     Donald Trump Joe Biden
+##   Donald Trump          493        29
+##   Joe Biden              20        68
+##                                         
+##                Accuracy : 0.9197        
+##                  95% CI : (0.8952, 0.94)
+##     No Information Rate : 0.841         
+##     P-Value [Acc &gt; NIR] : 5.958e-09     
+##                                         
+##                   Kappa : 0.6879        
+##                                         
+##  Mcnemar&#39;s Test P-Value : 0.2531        
+##                                         
+##             Sensitivity : 0.9610        
+##             Specificity : 0.7010        
+##          Pos Pred Value : 0.9444        
+##          Neg Pred Value : 0.7727        
+##              Prevalence : 0.8410        
+##          Detection Rate : 0.8082        
+##    Detection Prevalence : 0.8557        
+##       Balanced Accuracy : 0.8310        
+##                                         
+##        &#39;Positive&#39; Class : Donald Trump  
+## </code></pre>
+<pre class="r"><code># bagging
+predict_model2_test &lt;- predict(model2, test, type=&quot;class&quot;)
+confusionMatrix(predict_model2_test, test$candidate)</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##               Reference
+## Prediction     Donald Trump Joe Biden
+##   Donald Trump          491        24
+##   Joe Biden              22        73
+##                                           
+##                Accuracy : 0.9246          
+##                  95% CI : (0.9007, 0.9443)
+##     No Information Rate : 0.841           
+##     P-Value [Acc &gt; NIR] : 5.18e-10        
+##                                           
+##                   Kappa : 0.7157          
+##                                           
+##  Mcnemar&#39;s Test P-Value : 0.8828          
+##                                           
+##             Sensitivity : 0.9571          
+##             Specificity : 0.7526          
+##          Pos Pred Value : 0.9534          
+##          Neg Pred Value : 0.7684          
+##              Prevalence : 0.8410          
+##          Detection Rate : 0.8049          
+##    Detection Prevalence : 0.8443          
+##       Balanced Accuracy : 0.8548          
+##                                           
+##        &#39;Positive&#39; Class : Donald Trump    
+## </code></pre>
+<pre class="r"><code># random forest
+predict_model3_test &lt;- predict(model3, test, type=&quot;response&quot;,se.method=&quot;infjack&quot; )
+confusionMatrix(predict_model3_test$predictions, test$candidate)</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##               Reference
+## Prediction     Donald Trump Joe Biden
+##   Donald Trump          492        24
+##   Joe Biden              21        73
+##                                           
+##                Accuracy : 0.9262          
+##                  95% CI : (0.9025, 0.9457)
+##     No Information Rate : 0.841           
+##     P-Value [Acc &gt; NIR] : 2.193e-10       
+##                                           
+##                   Kappa : 0.7207          
+##                                           
+##  Mcnemar&#39;s Test P-Value : 0.7656          
+##                                           
+##             Sensitivity : 0.9591          
+##             Specificity : 0.7526          
+##          Pos Pred Value : 0.9535          
+##          Neg Pred Value : 0.7766          
+##              Prevalence : 0.8410          
+##          Detection Rate : 0.8066          
+##    Detection Prevalence : 0.8459          
+##       Balanced Accuracy : 0.8558          
+##                                           
+##        &#39;Positive&#39; Class : Donald Trump    
+## </code></pre>
+<p><br />
+</p>
+</div>
+<div id="construct-confusion-matrices-for-train-data" class="section level1">
+<h1>5. Construct confusion matrices for train data</h1>
+<p>The predictions using train data have a higher accuracy than predictions using test data because the models were built using the train data.</p>
+<pre class="r"><code># single decision tree
+predict_model1_train &lt;- predict(model1, train, type = &#39;class&#39;)
+confusionMatrix(predict_model1_train, train$candidate)</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##               Reference
+## Prediction     Donald Trump Joe Biden
+##   Donald Trump         2005       120
+##   Joe Biden              43       266
+##                                           
+##                Accuracy : 0.933           
+##                  95% CI : (0.9224, 0.9426)
+##     No Information Rate : 0.8414          
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+##                                           
+##                   Kappa : 0.727           
+##                                           
+##  Mcnemar&#39;s Test P-Value : 2.636e-09       
+##                                           
+##             Sensitivity : 0.9790          
+##             Specificity : 0.6891          
+##          Pos Pred Value : 0.9435          
+##          Neg Pred Value : 0.8608          
+##              Prevalence : 0.8414          
+##          Detection Rate : 0.8237          
+##    Detection Prevalence : 0.8730          
+##       Balanced Accuracy : 0.8341          
+##                                           
+##        &#39;Positive&#39; Class : Donald Trump    
+## </code></pre>
+<pre class="r"><code># bagging
+predict_model2_train &lt;- predict(model2, train, type=&quot;class&quot;)
+confusionMatrix(predict_model2_train, train$candidate)</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##               Reference
+## Prediction     Donald Trump Joe Biden
+##   Donald Trump         2048         0
+##   Joe Biden               0       386
+##                                       
+##                Accuracy : 1           
+##                  95% CI : (0.9985, 1) 
+##     No Information Rate : 0.8414      
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16   
+##                                       
+##                   Kappa : 1           
+##                                       
+##  Mcnemar&#39;s Test P-Value : NA          
+##                                       
+##             Sensitivity : 1.0000      
+##             Specificity : 1.0000      
+##          Pos Pred Value : 1.0000      
+##          Neg Pred Value : 1.0000      
+##              Prevalence : 0.8414      
+##          Detection Rate : 0.8414      
+##    Detection Prevalence : 0.8414      
+##       Balanced Accuracy : 1.0000      
+##                                       
+##        &#39;Positive&#39; Class : Donald Trump
+## </code></pre>
+<pre class="r"><code># random forest
+predict_model3_train &lt;- predict(model3, train, type=&quot;response&quot;,se.method=&quot;infjack&quot; )
+table(train$candidate, predict_model3_train$predictions)</code></pre>
+<pre><code>##               
+##                Donald Trump Joe Biden
+##   Donald Trump         2048         0
+##   Joe Biden               0       386</code></pre>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
