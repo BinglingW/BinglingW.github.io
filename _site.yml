@@ -9,10 +9,8 @@ navbar:
       href: datasci_samples.html
     - text: "Research Projects"
       href: Research_Projects.html
-    - text: "Design Challenge"
+    - text: "Design Challenges"
       href: design_challenge.html
-    - text: "Resume"
-      href: resume.pdf
 output:
   html_document:
     theme: simplex
