@@ -1,0 +1,469 @@
+/* Master styles */
+html {
+    scroll-behavior: smooth;
+}
+body {
+    margin: 0px;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+.container {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+/*  Nav styles */
+.nav-wrapper {
+    display: flex;
+    justify-content: space-between;
+    padding: 38px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: white;
+}
+.content-wrapper {
+    margin-top: 30px;
+}
+.left-side {
+    display: flex;
+}
+.nav-wrapper > .left-side > div {
+    margin-right: 20px;
+    font-size: 1em;
+    text-transform: uppercase;  
+}
+.right-side {
+    font-size: 1em;
+    margin-right: 70px;
+    color: #292421
+}
+.nav-link-wrapper {
+    height: 22px;
+    border-bottom: 1px solid transparent;
+    transition: border-bottom 0.5s;
+}
+.nav-link-wrapper a{
+    color: #b7aca5;
+    text-decoration: none;
+    transition: color 0.5s;
+}
+.nav-link-wrapper:hover {
+    border-bottom: 1px solid #292421;
+}
+.nav-link-wrapper a:hover {
+    color: #292421;
+}
+.active-nav-link {
+    border-bottom: 1px solid #292421;
+}
+.active-nav-link a{
+    color: #292421 !important;
+}
+
+/* Index Intro styles */
+
+.myintro {
+    word-spacing: 3px;
+    text-align: center;
+    margin-top: 200px;
+    margin-bottom: 30px;
+}
+
+.myintro h1 {
+    padding-left: 100px;
+    padding-right: 100px;
+    margin-top: 10px;
+    color: #1181bd;
+    font-weight: 2000;
+    font-size: 2.5em;
+}
+
+.myintro p {
+    margin-top: 80px;
+    margin-left: 200px;
+    margin-right: 200px;
+    color: #292421;
+    font-weight: 1000;
+    font-size: 1.4em;
+}
+
+br {
+    display: block;
+    content: "";
+    margin-top: 40px;
+}
+
+.check-out-text p {
+    margin-top: 130px;
+    color: #1181bd;
+    font-weight: 1000;
+    font-size: 1.4em;
+    text-align: center;
+}
+
+.check-out-text p a{
+    text-decoration: none;
+}
+
+.check-out-gif img{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 30px;
+}
+
+/* Index Portfolio styles */
+
+.portfolio-items-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    background-color: #e4f0f5;
+}
+
+.img-text-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 100px;
+}
+
+.portfolio-item-wrapper .subtitle a{
+    font-size: 2em;
+    transition: 0.8s;
+    font-weight: 1000;
+    color: #1181bd;
+    text-decoration: none;
+}
+
+.portfolio-item-wrapper:hover .subtitle a{
+    font-size: 2em;
+    font-weight: 1000;
+    color: lightsalmon;
+}
+
+
+/* intern.html styles */
+
+.myintro-work {
+    word-spacing: 3px;
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 0px;
+}
+
+.myintro-work h1 {
+    padding-left: 100px;
+    padding-right: 100px;
+    margin-top: 10px;
+    color: #1181bd;
+    font-weight: 2000;
+    font-size: 2.5em;
+}
+
+.myintro-text p {
+    margin-top: 50px;
+    margin-left: 200px;
+    margin-right: 200px;
+    color: #292421;
+    font-weight: 1000;
+    font-size: 1.4em;
+}
+
+.myintro-text-wrapper {
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+.myintro-text h1 {
+    margin-top: 80px;
+}
+
+.myintro-text a{
+    text-decoration: none;
+    color: #1181bd;
+}
+
+.myintro-text a h1:hover {
+    color: lightsalmon;
+}
+
+.myintro-text-link a{
+    text-decoration: none;
+    color: #1181bd;
+    margin-top: 20px;
+    font-weight: 1000;
+    font-size: 1.4em;
+}
+
+.myintro-text-link a:hover {
+    color: lightsalmon;
+}
+
+#Intern-myintro-text-background {
+    background-color: lightyellow;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    margin: 0px;
+}
+
+.example-title img {
+   filter:opacity(0%);
+   transition: 0.5s;
+}
+
+.example-title:hover img{
+    filter:opacity(100%)
+}
+
+/* designchallenges.html styles */
+
+#DC-myintro-text-background-1 {
+    background-color: #e4f0f5;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    margin: 0px;
+}
+
+#DC-myintro-text-background-2 {
+    background-color: lightyellow;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin: 0px;
+}
+
+#HCD {
+    background-color: lightyellow;
+}
+
+.myintro-text-link {
+    display: flex;
+    justify-content: center;
+}
+
+.myintro-text-link-1 {
+    color: #1181bd;
+    font-weight: 1000;
+    font-size: 1.4em;
+    margin-left: 10px;
+}
+
+.myintro-text-link-2{
+    color: #1181bd;
+    font-weight: 1000;
+    font-size: 1.4em;
+    margin-left: 10px;
+}
+
+#link {
+    margin-left: 10px;
+}
+
+/* ipsos.html, rare.html styles */
+.project-objective-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 100px;
+    padding-bottom: 80px;
+    align-items:stretch;
+    text-align: left;
+}
+
+.project-objective-title-wrapper {
+    margin-left: 150px;
+}
+
+.project-objective-title {
+    padding-top: 100px;
+    color: #1181bd;
+    font-weight: bolder;
+    font-size: 1.8em;
+}
+
+.project-objective {
+    margin-top: 40px;
+    color: #292421;
+    font-weight: 2000;
+    font-size: 1.3em;
+}
+
+.project-objective-text{
+    margin-right: 100px;
+    padding-top: 50px;
+}
+
+.project-overview-text p{
+    word-spacing: 7px;
+    font-weight: bolder;
+    font-size: 1.1em;
+}
+
+.project-component {
+    word-spacing: 5px;
+    margin-top: 40px;
+    color: #292421;
+    font-weight: bolder;
+    font-size: 1em;
+}
+
+.project-component-wrapper {
+    display: flex;
+    justify-content: initial;
+    margin-top: 50px;
+    text-align: left;
+}
+.project-components {
+    display: flex;
+    justify-content: initial;
+    font-size: 0.9em;
+    font-weight: 1000;
+}
+.component1 {
+    margin-right: 30px;
+}
+.project-component-text {
+    margin-right: 120px;
+}
+
+.project-display-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 50px;
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-bottom: 100px;
+    text-align: center;
+}
+
+.project-display-wrapper a{
+    text-decoration: none;
+    color: #292421;
+}
+
+.project-display-wrapper img{
+    width: 500px;
+    height: 280px;
+    margin-top: 80px;
+    margin-bottom: 20px;
+}
+
+.project-display-wrapper img:hover {
+    width: 480px;
+    height: 260px;
+    margin-top: 80px;
+    margin-bottom: 40px;
+}
+
+.title a{
+    font-size: 1.3em;
+    color: #292421;
+    font-weight: bolder;
+}
+
+.title a:hover {
+    font-size: 1.3em;
+    color: #292421;
+    font-weight: bolder;
+    border-bottom: 1px solid #292421;
+}
+
+#rare {
+    background-color: lightyellow;
+}
+
+#ipsos {
+    background-color: #e4f0f5;
+}
+
+#project-display-rare {
+    display:grid;
+    grid-template-columns: 1fr;
+}
+
+.project-steps-wrapper {
+    padding-top: 10px;
+    padding-bottom: 30px;
+}
+.project-step-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 100px;
+    align-items:stretch;
+    text-align: left;
+}
+
+.project-step-title-wrapper {
+    margin-left: 100px;
+}
+
+.project-step-title {
+    color: #1181bd;
+    font-weight: 2000;
+    font-size: 1.5em;
+    margin-top: 40px;
+}
+
+.project-step-method {
+    margin-top: 30px;
+    color: #292421; 
+    font-size: 1.3em;
+}
+
+.project-step-text {
+    margin-right: 100px;
+}
+
+.project-step-overview {
+    color: #292421;
+    word-spacing: 7px;
+    font-size: 1.1em;
+}
+.example-title p{
+    color: transparent;
+    transition: 0.5s;
+    font-style: italic;
+}
+
+.example-title h3{
+    color: #292421;
+    font-size: 1em;
+    font-style: italic;
+}
+
+.example-title:hover h3{
+    color:#1181bd;
+}
+.example-title:hover p{
+    color:#1181bd;
+}
+
+.bottom-bar-wrapper {
+    display: flex;
+    justify-content:space-evenly;
+    align-items: center;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.bottom-bar-wrapper a{
+    text-decoration: none;
+    font-size: 1.1rm;
+    color: #292421;
+}
+
+.bottom-bar-wrapper a:hover{
+    border-bottom: 1px solid #292421;
+}
+
+
+/* rare.html styles*/
+.project-overview-text a{
+    text-decoration: none;
+    color: #292421;
+}
+
+.project-overview-text a:hover{
+    border-bottom: 1px solid #292421;
+}

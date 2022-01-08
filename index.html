@@ -1,380 +1,101 @@
-<!DOCTYPE html>
-
+<!DOCTYPE html> 
 <html>
-
 <head>
-
-<meta charset="utf-8" />
-<meta name="generator" content="pandoc" />
-<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
-
-
-
-
-<title>Welcome to my portal!</title>
-
-<script src="site_libs/header-attrs-2.5/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
-<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
-<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
-<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
-
-<style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
-
-<style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
-  }
-}
-</script>
-
-
-
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
-
-
-
-
-<style type = "text/css">
-.main-container {
-  max-width: 940px;
-  margin-left: auto;
-  margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
-}
-img {
-  max-width:100%;
-}
-.tabbed-pane {
-  padding-top: 12px;
-}
-.html-widget {
-  margin-bottom: 20px;
-}
-button.code-folding-btn:focus {
-  outline: none;
-}
-summary {
-  display: list-item;
-}
-</style>
-
-
-<style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 41px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
-.section h2 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
-.section h3 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
-.section h4 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
-.section h5 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
-.section h6 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
-.dropdown-submenu {
-  position: relative;
-}
-.dropdown-submenu>.dropdown-menu {
-  top: 0;
-  left: 100%;
-  margin-top: -6px;
-  margin-left: -1px;
-  border-radius: 0 6px 6px 6px;
-}
-.dropdown-submenu:hover>.dropdown-menu {
-  display: block;
-}
-.dropdown-submenu>a:after {
-  display: block;
-  content: " ";
-  float: right;
-  width: 0;
-  height: 0;
-  border-color: transparent;
-  border-style: solid;
-  border-width: 5px 0 5px 5px;
-  border-left-color: #cccccc;
-  margin-top: 5px;
-  margin-right: -10px;
-}
-.dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
-}
-.dropdown-submenu.pull-left {
-  float: none;
-}
-.dropdown-submenu.pull-left>.dropdown-menu {
-  left: -100%;
-  margin-left: 10px;
-  border-radius: 6px 0 6px 6px;
-}
-</style>
-
-<script>
-// manage active state of menu based on current page
-$(document).ready(function () {
-  // active menu anchor
-  href = window.location.pathname
-  href = href.substr(href.lastIndexOf('/') + 1)
-  if (href === "")
-    href = "index.html";
-  var menuAnchor = $('a[href="' + href + '"]');
-
-  // mark it active
-  menuAnchor.parent().addClass('active');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
-});
-</script>
-
-<!-- tabsets -->
-
-<style type="text/css">
-.tabset-dropdown > .nav-tabs {
-  display: inline-table;
-  max-height: 500px;
-  min-height: 44px;
-  overflow-y: auto;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs > li.active {
-  display: block;
-}
-
-.tabset-dropdown > .nav-tabs > li > a,
-.tabset-dropdown > .nav-tabs > li > a:focus,
-.tabset-dropdown > .nav-tabs > li > a:hover {
-  border: none;
-  display: inline-block;
-  border-radius: 4px;
-  background-color: transparent;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
-  display: block;
-  float: none;
-}
-
-.tabset-dropdown > .nav-tabs > li {
-  display: none;
-}
-</style>
-
-<!-- code folding -->
-
-
-
-
+    <meta charset="utf-8" />
+    <title>Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
+    <div class="container">
+        <div class="nav-wrapper">
 
+            <div class="left-side">
+                <div class="nav-link-wrapper active-nav-link">
+                    <a href="index.html">Home</a>
+                </div>
 
-<div class="container-fluid main-container">
+                <div class="nav-link-wrapper">
+                    <a href="about.html">About</a>
+                </div>
+            </div>
 
+            <div class="right-side">
+                <div class="brand">
+                    BINGLING WANG
+                </div>
+            </div>
 
+        </div>
 
+        <div class="content-wrapper">
 
-<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="index.html">Bingling Wang's Portal</a>
+            <div class="myintro">
+                <h1>Hello. Welcome to Bingling's portal!</h1>
+                <p>I am passionate about using behavioral sciences and market research to understand human behavior and solve real-world problems.<br>
+                    I enjoy interdisciplinary work and aspire to learn from people in different fields.</p>
+                <div class="check-out-wrapper">
+                    <div class="check-out-text">
+                        <p>Come check out my experience!</p>
+                    </div>
+                    <div class="check-out-gif">
+                        <a href="#section2">
+                            <img src = "images/check-out.gif" alt = "check-out image"></a>
+                        </a>
+                    </div> 
+                </div>  
+            </div>
+
+            <div class="portfolio-items-wrapper" id = "section2">
+
+                <div class="portfolio-item-wrapper">
+                    <div class="img-text-wrapper">
+                        <div class="img-text-1">
+                            <div class="subtitle">
+                                <a href="intern.html"> Internship Experience</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item-wrapper">
+                    <div class="img-text-wrapper">
+                        <div class="img-text-2">
+                            <div class="subtitle">
+                                <a href="designchallenges.html"> Design Challenges</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item-wrapper">
+                    <div class="img-text-wrapper">
+                        <div class="img-text-3">
+                            <div class="subtitle">
+                                <a href="research.html"> Class Research Projects</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item-wrapper">
+                    <div class="img-text-wrapper">
+                        <div class="img-text-4">
+                            <div class="subtitle">
+                                <a href="datasamples.html"> Data Analysis Samples</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+            </div>
+            
+        </div>
+
     </div>
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-        <li>
-  <a href="index.html">Home</a>
-</li>
-<li>
-  <a href="datasci_samples.html">Data Science Samples</a>
-</li>
-<li>
-  <a href="Research_Projects.html">Research Projects</a>
-</li>
-<li>
-  <a href="design_challenge.html">Design Challenges</a>
-</li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        
-      </ul>
-    </div><!--/.nav-collapse -->
-  </div><!--/.container -->
-</div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
-
-
-
-<h1 class="title toc-ignore">Welcome to my portal!</h1>
-
-</div>
-
-
-<p><br />
-<br />
-<br />
-</p>
-<div id="about-me" class="section level2">
-<h2>About Me</h2>
-<p>Hi, this is Bingling. When I was an undergraduate at William &amp; Mary, I majored in Psychology and Economics. I was fascinated with the intersection of both fields, behavioral economics, and its application to consumer behavior and marketing. Following my passion, I am currently a student at the Master of Behavioral and Decision Science program at the University of Pennsylvania. I love applying my knowledge of behavioral and decision science to solve real-world problems. I want to help people make more beneficial choices. I am passionate about designing and promoting human-centered ideas and products to make the world better. I love working in a fast-paced environment. I enjoy transferring insights from multiple fields into workable actions. I am enthusiastic about taking on challenges and exploring the unknown.</p>
-<p><br />
-</p>
-<p>Here, you may see samples of my work on data science, research, as well as consumer insights and product development at the Design Challenges.</p>
-<p><br />
-</p>
-</div>
-<div id="contact" class="section level2">
-<h2>Contact</h2>
-<p>Email: <a href="mailto:bingling@sas.upenn.edu">bingling@sas.upenn.edu</a><br />
-Linkedin: <a href="www.linkedin.com/in/bingling-wang"> www.linkedin.com/in/bingling-wang</a></p>
-</div>
-
-
-
-
-</div>
-
-<script>
-
-// add bootstrap table styles to pandoc tables
-function bootstrapStylePandocTables() {
-  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
-}
-$(document).ready(function () {
-  bootstrapStylePandocTables();
-});
-
-
-</script>
-
-<!-- tabsets -->
-
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
-<!-- code folding -->
-
-
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 
 </body>
+
 </html>
