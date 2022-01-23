@@ -471,10 +471,14 @@ br {
 
 
 /* datasamples.html styles */
-.placeholder {
-    color: #e4f0f5;
-    padding-top: 50px;
-    padding-bottom: 100px;
+
+.project-step-title-wrapper a {
+    color:#1181bd;
+    text-decoration: none;
+}
+
+.project-step-title-wrapper a:hover{
+    color:lightsalmon;
 }
 
 
